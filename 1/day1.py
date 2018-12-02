@@ -4,14 +4,22 @@ intervals = { '(' : 1, ')' : -1 }
 
 def traverse(instructions):
     floor = 0
+    i = 0
+    baspos = 0
+
     for c in instructions:
         floor += intervals[c]
-    return floor
+        i += 1
+
+        if baspos == 0 and floor < 0:
+            baspos = i
+
+    return (floor, baspos)
 
 if __name__ == "__main__":
 
-    file = open('input', encoding='utf-8')
+    file = open('input')
     instructions = file.read().strip()
     file.close()
-    floor = traverse(instructions)
-    print('The instructions take Santa to floor', floor)
+    (floor, step) = traverse(instructions)
+    print('The instructions take Santa to floor', floor, '.  step ', step, ' is when he first enters the basement')

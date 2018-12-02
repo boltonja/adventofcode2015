@@ -2,8 +2,9 @@
 
 intervals = { '(' : 1, ')' : -1 }
 
-def area_with_margin(packages):
+def paper_and_ribbon(packages):
     area = 0
+    ribbon = 0
     for dimensions in packages.splitlines():
         # a robust application might validate the number of sides
         # it might also handle floating point
@@ -16,12 +17,21 @@ def area_with_margin(packages):
         # to 3ab + 2(ac + bc)
         area += 3 * sides[0] * sides[1] + 2 * (sides[0] * sides[2] + sides[1] * sides[2])
 
-    return area
+        # ribbon length is the perimeter of the smallest side
+        perimeter = 2 * (sides[0] + sides[1])
+
+        # bows require an additional ribbon length equal to the volume
+        volume = sides[0] * sides[1] * sides[2]
+
+        ribbon += volume + perimeter
+
+    return (area, ribbon)
 
 if __name__ == "__main__":
 
-    file = open('input', encoding='utf-8')
+    file = open('input')
     packages = file.read().strip()
     file.close()
-    area = area_with_margin(packages)
-    print('The elves require {0} square feet of wrapping paper'.format(area))
+    (area, ribbon) = paper_and_ribbon(packages)
+    print('The elves require {0} square feet of wrapping paper'.format(area) +
+          ' and {0} feet of ribbon'.format(ribbon))
