@@ -12,7 +12,7 @@
 using namespace std;
 
 list<string> *
-readfile(char *filename) {
+readfile(string filename) {
     ifstream      input;
     list<string> *lines;
 
@@ -20,14 +20,9 @@ readfile(char *filename) {
 
     input.open(filename);
 
-    while (input.good()) {
-        char    buf[20];
+    for (char buf[20]; input.getline(buf, sizeof(buf)); ) {
         string *line;
         
-        input.getline(buf, sizeof(buf));
-        if (!input.good())
-            break;
-
         line = new typeof(*line);
         if (!line) {
             delete lines;
@@ -47,16 +42,12 @@ adventmine(string s, const char *target) {
     unsigned char k[20];
     char          mdhex[33];
 
-    for (int i = 0; i < INT_MAX; i++) {
-        int           j;
-        char         *p;
+    for (int i = 1; i < INT_MAX; i++) {
+        int   j;
+        char *p;
 
-        if (i > 0) {
-            snprintf((char *)k, sizeof(k), "%s%d", (const char *)s.c_str(), i);
-            k[sizeof(k) - 1] = 0;
-        } else {
-            strlcpy((char *)k, (const char *)s.c_str(), sizeof(k));
-        }
+	snprintf((char *)k, sizeof(k), "%s%d", (const char *)s.c_str(), i);
+	k[sizeof(k) - 1] = 0;
 
         MD5((const unsigned char *)k, strlen((char *)k), md);
         
@@ -90,4 +81,6 @@ int main(int argc, char *argv[]) {
         i = adventmine(key, "000000");
         cout << "6 zeroes " << key << i << '\n';
     }
+
+    delete keys;
 }
