@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+# Advent of code 2015, Day 1
+#
+# Copyright 2015, 2016, 2017, 2018 by Jillian A. Bolton, All Rights Reserved.
+#
 
 intervals = { '(' : 1, ')' : -1 }
 
